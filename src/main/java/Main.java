@@ -34,12 +34,12 @@ public class Main {
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1000);
 
+    private static ScheduledFuture<?> taskRun = null;
+    private static ScheduledFuture<?> taskReport = null;
+
     private static int meters = 0;
 
     public static void main(String[] args) throws IOException {
-
-        ScheduledFuture<?> taskRun = null;
-        ScheduledFuture<?> taskReport = null;
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -47,11 +47,7 @@ public class Main {
         while (option != 4) {
             //To pick an option, introduce the number
             //If there's no polyline introduce, the robot will run with the default
-            System.out.println("Choose an option");
-            System.out.println("1 - start/stop");
-            System.out.println("2 - enter a new polyline (re-route)");
-            System.out.println("3 - report");
-            System.out.println("4 - exit");
+            printOptions();
 
             option = Integer.parseInt(reader.readLine());
 
@@ -92,7 +88,7 @@ public class Main {
 
         List<LatLng> positions = polyline.decodePath();
 
-        for(int i = 0; i < positions.size(); i++) {
+        for(int i = 0; i < positions.size()-1; i++) {
 
             rondon.setLocation(positions.get(i));
             LatLng nextStop = positions.get(i+1);
@@ -113,7 +109,7 @@ public class Main {
                 double dist = Math.sqrt(distLat * distLat + distLng * distLng);
 
                 Random random = new Random();
-                int v = random.nextInt(3);
+                int v = random.nextInt(3) + 1;
                 meters = meters + v;
                 distanceDone = distanceDone + v;
 
@@ -140,6 +136,10 @@ public class Main {
             }while (distanceDone < distance);
 
         }
+        System.out.println("route finished");
+        printOptions();
+        taskRun.cancel(false);
+        taskReport.cancel(false);
     }
 
     private static void checkpoints(){
@@ -155,5 +155,13 @@ public class Main {
 
     private static void roport(){
         System.out.println(rondon.toString());
+    }
+
+    private static void printOptions(){
+        System.out.println("Choose an option");
+        System.out.println("1 - start/stop");
+        System.out.println("2 - enter a new polyline (re-route)");
+        System.out.println("3 - report");
+        System.out.println("4 - exit");
     }
 }
