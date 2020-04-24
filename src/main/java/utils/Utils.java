@@ -14,6 +14,6 @@ public class Utils {
 
         int meterConversion = 1609;
 
-        return new Float(distance * meterConversion).floatValue();
+        return (float) (distance * meterConversion);
     }
 }

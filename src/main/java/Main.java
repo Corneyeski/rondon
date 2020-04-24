@@ -55,7 +55,7 @@ public class Main {
                 case 1:
                     if (taskRun == null || taskRun.isCancelled()){
                         taskRun = scheduler.scheduleAtFixedRate(Main::roboMove, 1, 1, TimeUnit.SECONDS);
-                        taskReport = scheduler.scheduleAtFixedRate(Main::roport, 15, 15, TimeUnit.MINUTES);
+                        taskReport = scheduler.scheduleAtFixedRate(Main::roport, 0, 15, TimeUnit.MINUTES);
                         System.out.println("Robot is now running");
                     }
                     else {
@@ -72,7 +72,7 @@ public class Main {
                     roport();
                     break;
                 case 4:
-                    if(taskRun != null || !taskRun.isCancelled()){
+                    if(taskRun != null){
                         taskRun.cancel(true);
                         taskReport.cancel(true);
                     }
@@ -116,7 +116,6 @@ public class Main {
                 if(meters >= 100){
                     rondon.setAverage();
                     meters = 0;
-                    System.out.println("measure of PM 2.5 made");
                 }
 
                 double fullTime = dist / v; // seconds
@@ -129,9 +128,7 @@ public class Main {
 
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                } catch (InterruptedException e) {}
 
             }while (distanceDone < distance);
 
@@ -139,7 +136,7 @@ public class Main {
         System.out.println("route finished");
         printOptions();
         taskRun.cancel(false);
-        taskReport.cancel(false);
+        taskReport.cancel(true);
     }
 
     private static void checkpoints(){

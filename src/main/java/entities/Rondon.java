@@ -13,7 +13,7 @@ public class Rondon {
     private LatLng location;
     private transient int averagePM25;
     private transient int totalPM25;
-    private transient int numberMesures;
+    private transient int numberMeasures;
     private String levelPM25;
     private String source;
 
@@ -21,7 +21,7 @@ public class Rondon {
         timestamp = new Date().getTime();
         averagePM25 = 0;
         totalPM25 = 0;
-        numberMesures = 0;
+        numberMeasures = 0;
         levelPM25 = "N/A";
         location = new LatLng();
         source = "robot";
@@ -47,12 +47,12 @@ public class Rondon {
         this.totalPM25 = totalPM25;
     }
 
-    public int getNumberMesures() {
-        return numberMesures;
+    public int getNumberMeasures() {
+        return numberMeasures;
     }
 
-    public void setNumberMesures(int numberMesures) {
-        this.numberMesures = numberMesures;
+    public void setNumberMeasures(int numberMeasures) {
+        this.numberMeasures = numberMeasures;
     }
 
     public String getLevelPM25() {
@@ -83,9 +83,9 @@ public class Rondon {
         Random random = new Random();
         int measure = random.nextInt(200);
 
-        numberMesures++;
+        numberMeasures++;
         totalPM25 = totalPM25 + measure;
-        averagePM25 = totalPM25 / numberMesures;
+        averagePM25 = totalPM25 / numberMeasures;
 
         if(averagePM25 <= 50)
             levelPM25 = "Good";
